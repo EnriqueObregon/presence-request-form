@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presence Request Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 700px;
+        width: 100%;
+        padding: 40px;
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 28px;
+    }
+
+    .subtitle {
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .required {
+        color: #e74c3c;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="time"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: inherit;
+        transition: border-color 0.3s;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .date-time-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+        width: auto;
+        margin-right: 8px;
+    }
+
+    .checkbox-group label {
+        margin-bottom: 0;
+        font-weight: normal;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    button {
+        flex: 1;
+        padding: 14px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .submit-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .reset-btn {
+        background: #f5f5f5;
+        color: #666;
+    }
+
+    .reset-btn:hover {
+        background: #e0e0e0;
+    }
+
+    .success-message {
+        display: none;
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .error-message {
+        display: none;
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            padding: 25px;
+        }
+
+        .date-time-group {
+            grid-template-columns: 1fr;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <h1>Presence Request Form</h1>
+        <p class="subtitle">Please complete all required fields to submit your request.</p>
+
+```
+    <div class="success-message" id="successMessage">
+        Thank you! Your request has been submitted successfully.
+    </div>
+
+    <div class="error-message" id="errorMessage">
+        There was an error submitting your request. Please try again.
+    </div>
+
+    <form id="presenceForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-group">
+            <label for="requesteeName">Your Name <span class="required">*</span></label>
+            <input type="text" id="requesteeName" name="requesteeName" required placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+            <label for="requesteeEmail">Your Email <span class="required">*</span></label>
+            <input type="email" id="requesteeEmail" name="requesteeEmail" required placeholder="your.email@example.com">
+        </div>
+
+        <div class="form-group">
+            <label for="requesteeOrg">Organization/Company</label>
+            <input type="text" id="requesteeOrg" name="requesteeOrg" placeholder="Your organization name">
+        </div>
+
+        <div class="form-group">
+            <label for="eventName">Event/Meeting Name <span class="required">*</span></label>
+            <input type="text" id="eventName" name="eventName" required placeholder="e.g., Annual Conference, Team Meeting">
+        </div>
+
+        <div class="form-group">
+            <label for="eventType">Event Type <span class="required">*</span></label>
+            <select id="eventType" name="eventType" required>
+                <option value="">Select event type</option>
+                <option value="conference">Conference</option>
+                <option value="meeting">Meeting</option>
+                <option value="workshop">Workshop</option>
+                <option value="presentation">Presentation</option>
+                <option value="social">Social Event</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div class="date-time-group">
+            <div class="form-group">
+                <label for="eventDate">Date <span class="required">*</span></label>
+                <input type="date" id="eventDate" name="eventDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="eventTime">Time <span class="required">*</span></label>
+                <input type="time" id="eventTime" name="eventTime" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="duration">Expected Duration</label>
+            <input type="text" id="duration" name="duration" placeholder="e.g., 2 hours, 30 minutes">
+        </div>
+
+        <div class="form-group">
+            <label for="location">Location/Venue <span class="required">*</span></label>
+            <input type="text" id="location" name="location" required placeholder="Physical address or virtual meeting link">
+        </div>
+
+        <div class="form-group">
+            <label for="reason">Why Should I Attend? <span class="required">*</span></label>
+            <textarea id="reason" name="reason" required placeholder="Please explain the purpose of this event and why my presence is requested..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="role">My Expected Role</label>
+            <select id="role" name="role">
+                <option value="">Select a role</option>
+                <option value="attendee">Attendee</option>
+                <option value="speaker">Speaker/Presenter</option>
+                <option value="panelist">Panelist</option>
+                <option value="moderator">Moderator</option>
+                <option value="special-guest">Special Guest</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="additionalInfo">Additional Information</label>
+            <textarea id="additionalInfo" name="additionalInfo" placeholder="Any other details I should know (dress code, preparation needed, etc.)"></textarea>
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="virtualOption" name="virtualOption" value="yes">
+                <label for="virtualOption">Virtual attendance option available</label>
+            </div>
+        </div>
+
+        <input type="hidden" name="_subject" value="New Presence Request Form Submission">
+        <input type="hidden" name="_next" value="">
+
+        <div class="button-group">
+            <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
+            <button type="reset" class="reset-btn">Clear Form</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('presenceForm');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('eventDate').setAttribute('min', today);
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Disable submit button
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+        
+        // Hide previous messages
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        
+        try {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                successMessage.style.display = 'block';
+                form.reset();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                errorMessage.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        } catch (error) {
+            errorMessage.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Request';
+        }
+    });
+</script>
+```
+
+</body>
+</html>
