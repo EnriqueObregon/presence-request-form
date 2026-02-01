@@ -204,27 +204,27 @@
     <form id="presenceForm" action="https://formspree.io/f/xkozwkdl" method="POST">
         <div class="form-group">
             <label for="requesteeName">Your Name <span class="required">*</span></label>
-            <input type="text" id="requesteeName" name="requesteeName" required placeholder="Enter your full name">
+            <input type="text" id="requesteeName" name="name" required placeholder="Enter your full name">
         </div>
 
         <div class="form-group">
             <label for="requesteeEmail">Your Email <span class="required">*</span></label>
-            <input type="email" id="requesteeEmail" name="requesteeEmail" required placeholder="your.email@example.com">
+            <input type="email" id="requesteeEmail" name="email" required placeholder="your.email@example.com">
         </div>
 
         <div class="form-group">
             <label for="requesteeOrg">Organization/Company</label>
-            <input type="text" id="requesteeOrg" name="requesteeOrg" placeholder="Your organization name">
+            <input type="text" id="requesteeOrg" name="organization" placeholder="Your organization name">
         </div>
 
         <div class="form-group">
             <label for="eventName">Event/Meeting Name <span class="required">*</span></label>
-            <input type="text" id="eventName" name="eventName" required placeholder="e.g., Annual Conference, Team Meeting">
+            <input type="text" id="eventName" name="event_name" required placeholder="e.g., Annual Conference, Team Meeting">
         </div>
 
         <div class="form-group">
             <label for="eventType">Event Type <span class="required">*</span></label>
-            <select id="eventType" name="eventType" required>
+            <select id="eventType" name="event_type" required>
                 <option value="">Select event type</option>
                 <option value="conference">Conference</option>
                 <option value="meeting">Meeting</option>
@@ -238,12 +238,12 @@
         <div class="date-time-group">
             <div class="form-group">
                 <label for="eventDate">Date <span class="required">*</span></label>
-                <input type="date" id="eventDate" name="eventDate" required>
+                <input type="date" id="eventDate" name="event_date" required>
             </div>
 
             <div class="form-group">
                 <label for="eventTime">Time <span class="required">*</span></label>
-                <input type="time" id="eventTime" name="eventTime" required>
+                <input type="time" id="eventTime" name="event_time" required>
             </div>
         </div>
 
@@ -264,7 +264,7 @@
 
         <div class="form-group">
             <label for="role">My Expected Role</label>
-            <select id="role" name="role">
+            <select id="role" name="expected_role">
                 <option value="">Select a role</option>
                 <option value="attendee">Attendee</option>
                 <option value="speaker">Speaker/Presenter</option>
@@ -277,18 +277,17 @@
 
         <div class="form-group">
             <label for="additionalInfo">Additional Information</label>
-            <textarea id="additionalInfo" name="additionalInfo" placeholder="Any other details I should know (dress code, preparation needed, etc.)"></textarea>
+            <textarea id="additionalInfo" name="additional_info" placeholder="Any other details I should know (dress code, preparation needed, etc.)"></textarea>
         </div>
 
         <div class="form-group">
             <div class="checkbox-group">
-                <input type="checkbox" id="virtualOption" name="virtualOption" value="yes">
+                <input type="checkbox" id="virtualOption" name="virtual_option" value="yes">
                 <label for="virtualOption">Virtual attendance option available</label>
             </div>
         </div>
 
         <input type="hidden" name="_subject" value="New Presence Request Form Submission">
-        <input type="hidden" name="_next" value="">
 
         <div class="button-group">
             <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
@@ -333,10 +332,15 @@
                 form.reset();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
+                const data = await response.json();
+                console.error('Form submission error:', data);
+                errorMessage.textContent = 'Error: ' + (data.error || 'Please try again.');
                 errorMessage.style.display = 'block';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         } catch (error) {
+            console.error('Network error:', error);
+            errorMessage.textContent = 'Network error. Please check your connection and try again.';
             errorMessage.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } finally {
